@@ -1,8 +1,9 @@
 import pandas as pd
 import json
 
-year = 2021
-filter_year = True
+YEAR = 2021
+FILTER_YEAR = True
+
 crypto_prices = None
 trades = None
 sell_trades_detailed = None
@@ -117,8 +118,8 @@ def print_detailed_report():
         print('Transactions missing. Please enter trade details in trades.csv.')
         return
 
-    if filter_year:
-        sell_trades_detailed = sell_trades_detailed.loc[sell_trades_detailed['Year'] == year]
+    if FILTER_YEAR:
+        sell_trades_detailed = sell_trades_detailed.loc[sell_trades_detailed['Year'] == YEAR]
         if len(sell_trades_detailed.index) < 1:
             print('No crypto sales for defined year.')
             return
