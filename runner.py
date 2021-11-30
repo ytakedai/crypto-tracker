@@ -2,7 +2,7 @@ import pandas as pd
 import json
 
 year = 2021
-filter_year = False
+filter_year = True
 crypto_prices = None
 trades = None
 sell_trades_detailed = None
@@ -108,11 +108,21 @@ def compute_earnings():
                 }, ignore_index=True)
 
     # doesnt work yet
-    if filter_year:
-        sell_trades_detailed = sell_trades_detailed.loc[sell_trades_detailed['Timestamp'].year == year]
+    sell_trades_detailed['Year'] = pd.DatetimeIndex(sell_trades_detailed['Timestamp']).year
     
 
 def print_detailed_report():
+    global sell_trades_detailed
+    if len(sell_trades_detailed.index) < 1:
+        print('Transactions missing. Please enter trade details in trades.csv.')
+        return
+
+    if filter_year:
+        sell_trades_detailed = sell_trades_detailed.loc[sell_trades_detailed['Year'] == year]
+        if len(sell_trades_detailed.index) < 1:
+            print('No crypto sales for defined year.')
+            return
+
     print('Crypto Sales:')        
     print(sell_trades_detailed)
     print('')
